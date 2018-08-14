@@ -1,0 +1,12 @@
+#Database Configuration
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/wds_db
+    username: ${DB_USERNAME} # Get from env
+    password: ${DB_PASSWORD} # Get from env
+
+  #jOOQ Configuration
+  jooq:
+    sql-dialect: postgres
+
