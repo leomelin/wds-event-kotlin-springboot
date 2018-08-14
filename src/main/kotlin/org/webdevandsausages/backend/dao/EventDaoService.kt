@@ -28,13 +28,13 @@ class EventDaoService : EventDao() {
     fun findAllWithParticipants(): List<EventDto> {
         val resultMap = using(configuration())
             .select().from(Event.EVENT).join(Participant.PARTICIPANT)
-            .on(Event.EVENT.ID.eq(Participant.PARTICIPANT.EVENT_ID)).fetchMap (
+            .on(Event.EVENT.ID.eq(Participant.PARTICIPANT.EVENT_ID)).fetchMap(
                 // Map every row to Pojos
-                { r ->
-                    r.into(Event.EVENT).into(meta.tables.pojos.Event::class.java)
+                {
+                    it.into(Event.EVENT).into(meta.tables.pojos.Event::class.java)
                 },
-                { r ->
-                    r.into(Participant.PARTICIPANT).into(meta.tables.pojos.Participant::class.java)
+                {
+                    it.into(Participant.PARTICIPANT).into(meta.tables.pojos.Participant::class.java)
                 })
 
         return resultMap.entries.fold(mutableListOf(), { acc, entry ->
