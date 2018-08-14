@@ -26,7 +26,7 @@ class EventDaoService : EventDao() {
      * Custom method with custom query + mapper
      */
     fun findAllWithParticipants(): List<EventDto> {
-        val resultMap = using(super.configuration())
+        val resultMap = using(configuration())
             .select().from(Event.EVENT).join(Participant.PARTICIPANT)
             .on(Event.EVENT.ID.eq(Participant.PARTICIPANT.EVENT_ID)).fetchMap (
                 // Map every row to Pojos
