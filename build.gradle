@@ -59,9 +59,6 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.simpleflatmapper/sfm-jdbc
 	compile group: 'org.simpleflatmapper', name: 'sfm-jdbc', version: '4.0.1'
 
-	// https://mvnrepository.com/artifact/org.jooq/jool
-	compile group: 'org.jooq', name: 'jool', version: '0.9.14'
-
 	jooqRuntime 'postgresql:postgresql:9.1-901.jdbc4'
 
 	runtime('org.postgresql:postgresql')
