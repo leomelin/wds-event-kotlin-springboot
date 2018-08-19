@@ -3,7 +3,6 @@ package org.webdevandsausages.backend.dao
 import meta.tables.Event
 import meta.tables.Participant
 import meta.tables.daos.EventDao
-import meta.tables.daos.ParticipantDao
 import meta.tables.records.EventRecord
 import meta.tables.records.ParticipantRecord
 import org.jooq.DSLContext
@@ -41,15 +40,10 @@ class EventDaoService : EventDao() {
             .newMapper(object : TypeReference<Pair<EventRecord, List<ParticipantRecord>>>() {})
 
         val map = jdbcMapper.stream(resultSet).map {
-            val result1 = using(configuration()).newResult(Event.EVENT)
-            result1.add(it.first)
+            val event = it.first.into(Event.EVENT).into(meta.tables.pojos.Event::class.java)
+            val participants =
+                it.second.map { it.into(Participant.PARTICIPANT).into(meta.tables.pojos.Participant::class.java) }
 
-            val event = result1.map(EventDao().mapper())[0]
-
-            val result2 = using(configuration()).newResult(Participant.PARTICIPANT)
-            result2.addAll(it.second)
-
-            val participants = result2.map(ParticipantDao().mapper())
             EventDto(event, participants)
         }.collect(Collectors.toList())
 
